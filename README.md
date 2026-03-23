@@ -65,3 +65,6 @@ During this lab you will:
 - When debugging, print tokens, scores, or intermediate choices.
 - Ask an AI assistant to help create edge case posts or unusual wording.
 - Try examples that mislead or confuse your model. Failure cases teach you the most.
+
+## TF Summary
+The core concept that students should be aware about is how the dataset relies on rule-based and ML output. I believe where students might struggle on is aiming at the weight based on the distinciton between positive, negative, neutral, and mixed. The section that AI was helpful in useful ideas and the implementation of negation/sarcasm case in score_text method. However, AI was misleading in a few errors that I encounter. It would suggest finding the issue in another file rather than the accurate file that had the issues. One way I would guide the students is explore the code and analyze how each method operates. Run the code and they should point out what seems to be not accurate, develop questions for AI on what approaches would work.
