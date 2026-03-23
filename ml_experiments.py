@@ -9,7 +9,7 @@ TRUE_LABELS that you use with the rule based model.
 
 from typing import List, Tuple
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
@@ -19,7 +19,7 @@ from dataset import SAMPLE_POSTS, TRUE_LABELS
 def train_ml_model(
     texts: List[str],
     labels: List[str],
-) -> Tuple[CountVectorizer, LogisticRegression]:
+) -> Tuple[TfidfVectorizer, LogisticRegression]:
     """
     Train a simple text classifier using bag of words features
     and logistic regression.
@@ -40,10 +40,14 @@ def train_ml_model(
     if not texts:
         raise ValueError("No training data provided. Add examples in dataset.py.")
 
-    vectorizer = CountVectorizer()
+    vectorizer = TfidfVectorizer(
+        lowercase=True,
+        ngram_range=(1, 2),
+        token_pattern=r"(?u)\b\w+\b",
+    )
     X = vectorizer.fit_transform(texts)
 
-    model = LogisticRegression(max_iter=1000)
+    model = LogisticRegression(max_iter=2000, class_weight="balanced")
     model.fit(X, labels)
 
     return vectorizer, model
@@ -52,7 +56,7 @@ def train_ml_model(
 def evaluate_on_dataset(
     texts: List[str],
     labels: List[str],
-    vectorizer: CountVectorizer,
+    vectorizer: TfidfVectorizer,
     model: LogisticRegression,
 ) -> float:
     """
@@ -85,7 +89,7 @@ def evaluate_on_dataset(
 
 def predict_single_text(
     text: str,
-    vectorizer: CountVectorizer,
+    vectorizer: TfidfVectorizer,
     model: LogisticRegression,
 ) -> str:
     """
@@ -98,7 +102,7 @@ def predict_single_text(
 
 
 def run_interactive_loop(
-    vectorizer: CountVectorizer,
+    vectorizer: TfidfVectorizer,
     model: LogisticRegression,
 ) -> None:
     """

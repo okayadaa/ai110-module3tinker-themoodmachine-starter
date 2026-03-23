@@ -23,6 +23,8 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    "hyped",
+    "lit",
 ]
 
 NEGATIVE_WORDS = [
@@ -36,6 +38,9 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    "overwhelming",
+    "worst",
+    "nervous",
 ]
 
 # ---------------------------------------------------------------------
@@ -50,6 +55,21 @@ SAMPLE_POSTS = [
     "This is fine",
     "So excited for the weekend",
     "I am not happy about this",
+    "Highkey hyped for the concert tonight 🤩",
+    "No cap, this is the worst movie I've ever seen 😭",
+    "Tonight is about to be lit 🔥🔥🔥",
+    "I absolutely love getting stuck in traffic 🙃",
+    "so done with this week, can't wait for it to be over 😩",
+    "Im so happy",
+    "im so sad",
+    "That exam was overwhelming",
+    "I feel happy and excited today",
+    "I feel sad and tired today",
+    "I absolutely love waiting in long lines 🙃",
+    "I am okay, nothing special",
+    "I am stressed but still hopeful",
+    "im lowkey nervous",
+
 ]
 
 # Human labels for each post above.
@@ -65,8 +85,21 @@ TRUE_LABELS = [
     "neutral",   # "This is fine"
     "positive",  # "So excited for the weekend"
     "negative",  # "I am not happy about this"
+    "positive",  # "Highkey hyped for the concert tonight 🤩"
+    "negative",  # "No cap, this is the worst movie I've ever seen 😭"
+    "positive",  # "Tonight is about to be lit 🔥🔥🔥"
+    "negative",  # "I absolutely love getting stuck in traffic 🙃"
+    "negative",  # "so done with this week, can't wait for it to be over 😩"
+    "positive",  # "Im so happy"
+    "negative",  # "im so sad"
+    "negative",  # "That exam was overwhelming"
+    "positive",  # "I feel happy and excited today"
+    "negative",  # "I feel sad and tired today"
+    "negative",  # "I absolutely love waiting in long lines 🙃"
+    "neutral",   # "I am okay, nothing special"
+    "mixed",     # "I am stressed but still hopeful"
+    "negative",  # "im lowkey nervous"
 ]
-
 # TODO: Add 5-10 more posts and labels.
 #
 # Requirements:

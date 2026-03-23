@@ -11,7 +11,7 @@ This class starts with very simple logic:
 
 from typing import List, Dict, Tuple, Optional
 
-from dataset import POSITIVE_WORDS, NEGATIVE_WORDS
+from dataset import POSITIVE_WORDS, NEGATIVE_WORDS, TRUE_LABELS
 
 
 class MoodAnalyzer:
@@ -21,8 +21,8 @@ class MoodAnalyzer:
 
     def __init__(
         self,
-        positive_words: Optional[List[str]] = None,
-        negative_words: Optional[List[str]] = None,
+        positive_words: Optional[List[str]] = POSITIVE_WORDS,
+        negative_words: Optional[List[str]] = NEGATIVE_WORDS,
     ) -> None:
         # Use the default lists from dataset.py if none are provided.
         positive_words = positive_words if positive_words is not None else POSITIVE_WORDS
@@ -52,8 +52,10 @@ class MoodAnalyzer:
           - Handle simple emojis separately (":)", ":-(", "🥲", "😂")
           - Normalize repeated characters ("soooo" -> "soo")
         """
-        cleaned = text.strip().lower()
+        cleaned = text.strip().lower() 
         tokens = cleaned.split()
+
+        print(f"[preprocess] tokens: {tokens}")  # Debugging output
 
         return tokens
 
@@ -83,7 +85,39 @@ class MoodAnalyzer:
         #
         # Hint: if you implement negation, you may want to look at pairs of tokens,
         # like ("not", "happy") or ("never", "fun").
-        pass
+        
+        tokens = self.preprocess(text)
+        score = 0
+
+        negators = {"not", "never", "no"}
+        sarcasm_context = {"lol", "lmao", "stuck", "traffic"}
+
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
+
+            if token in negators and i + 1 < len(tokens):
+                nxt = tokens[i + 1]
+                if nxt in self.positive_words:
+                    score -= 1
+                    i += 2
+                    continue
+                if nxt in self.negative_words:
+                    score += 1
+                    i += 2
+                    continue
+
+            if token in self.positive_words:
+                score += 1
+            if token in self.negative_words:
+                score -= 1
+
+            i += 1
+            
+        if "love" in tokens and any(w in tokens for w in sarcasm_context):
+          score -= 3
+
+        return score
 
     # ---------------------------------------------------------------------
     # Label prediction
@@ -110,7 +144,13 @@ class MoodAnalyzer:
         #   2. Return "positive" if the score is above 0.
         #   3. Return "negative" if the score is below 0.
         #   4. Return "neutral" otherwise.
-        pass
+        score = self.score_text(text)
+        if score > 0:
+            return "positive"
+        elif score < 0:
+            return "negative"
+        else:
+            return "neutral"
 
     # ---------------------------------------------------------------------
     # Explanations (optional but recommended)
